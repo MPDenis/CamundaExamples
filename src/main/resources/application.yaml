@@ -1,7 +1,74 @@
+#spring:
+#  h2:
+#    console:
+#      enabled: true
+#  jpa:
+#    show-sql: true
+#    database-platform: org.hibernate.dialect.H2Dialect
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#    driver-class-name: org.h2.Driver
+#
+#camunda.bpm:
+#  admin-user:
+#    id: demo
+#    password: demo
+#    firstName: Demo
+#  filter:
+#    create: All tasks
+
+
+spring:
+
+  # инициализация бд при помощи schema.sql всегда, для любой БД, обычно только для H2
+  sql:
+    init:
+      mode: always
+
+  application:
+    name: camunda
+
+  h2:
+    console:
+      enabled: true
+    jpa:
+     show-sql: true
+     database-platform: org.hibernate.dialect.H2Dialect
+  datasource:
+      url: jdbc:h2:mem:testdb
+      driver-class-name: org.h2.Driver
+
+  jpa:
+    # инициализация - https://www.baeldung.com/spring-boot-data-sql-and-schema-sql
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+
 camunda.bpm:
+  # Настройки для ExternalTask
+  #client:
+    #base-url: http://localhost:8080/engine-rest # the URL pointing to the Camunda Platform Runtime REST API
+    #lock-duration: 10000 # defines how many milliseconds the External Tasks are locked until they can be fetched again
+    #subscriptions:
+      #scoreProvider: # topic name of the External Service Task
+        #variable-names: [] # our business logic doesn't require any variables, so don't fetch them
+        #process-definition-key: Application_for_credit # only filter for External Tasks with this process definition key
+
   admin-user:
     id: demo
     password: demo
-    firstName: Demo
-  filter:
-    create: All tasks
+    firstName: MaxCarnage
+
+
+logging:
+  level:
+    org:
+      camunda:
+        bpm:
+          client: debug
